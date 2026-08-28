@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Métodos Numéricos</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+
+  <!-- ============ NAVBAR ============ -->
+  <header class="navbar">
+    <div class="navbar-top">
+      <div class="brand">
+        <div class="brand-name">Met<span>Num</span></div>
+        <div class="brand-sub">Antonella Baldeon Ramirez</div>
+      </div>
+
+      <div class="navbar-right">
+        <div class="who">
+          <div class="avatar">TA</div>
+          <div class="who-text">
+            <div class="role">Ing. de Sistemas</div>
+          </div>
+        </div>
+        <button class="theme-switch" id="themeToggle" type="button">Tema</button>
+      </div>
+    </div>
+
+    <nav class="nav" role="tablist" aria-label="Métodos">
+      <button class="nav-link active" data-tab="p1" role="tab" aria-selected="true">
+        <span class="nl-left"> Bisección</span>
+      </button>
+      <button class="nav-link" data-tab="p2" role="tab" aria-selected="false">
+        <span class="nl-left"> Falsa Posición</span>
+      </button>
+      <button class="nav-link hidden-temp" data-tab="p3" role="tab" aria-selected="false">
+  <span class="nl-left"> Punto Fijo</span>
+</button>
+<button class="nav-link hidden-temp" data-tab="p4" role="tab" aria-selected="false">
+  <span class="nl-left"> Newton-Raphson</span>
+  <span class="badge">Latencia</span>
+</button>
+<button class="nav-link hidden-temp" data-tab="p5" role="tab" aria-selected="false">
+  <span class="nl-left"> Secante</span>
+  <span class="badge">Software</span>
+</button>
+      </button>
+      <button class="nav-link" data-tab="p6" role="tab" aria-selected="false">
+        <span class="nl-left"> Personalizado</span>
+        
+      </button>
+    </nav>
+  </header>
+
+  <!-- ============ MAIN ============ -->
+  <main class="main">
+    <div class="page-head">
+      <div class="page-eyebrow">Sesión 2 · GAA</div>
+      <h1 class="page-title">Raíces de ecuaciones no lineales</h1>
+      <p class="page-desc">Aplicación de métodos cuantitativos cerrados (como bisección y falsa posición) y abiertos (punto fijo, Newton-Raphson y secante) para resolver ecuaciones en ingeniería, incluyendo una herramienta configurable para el análisis de funciones arbitrarias.</p>
+    </div>
+
+    <!-- ==================== P1 · BISECCIÓN ==================== -->
+    <section class="panel active" id="p1">
+      <div class="card">
+        <div class="card-head">
+          <h2>Dimensionamiento de un enlace de red</h2>
+          <span class="tag">Bisección</span>
+        </div>
+        <p class="card-desc">Capacidad mínima C (Mbps) que anula el tiempo de espera promedio de
+        los paquetes en cola (modelo M/M/1 simplificado).</p>
+        <div class="fx-box">f(C) = 1 / (C − 8.5) − 0.35·ln(C − 2) = 0</div>
+
+        <div class="form-grid">
+          <div class="field"><label>a (inicial)</label><input type="number" id="p1-a" value="9.5" step="any"></div>
+          <div class="field"><label>b (inicial)</label><input type="number" id="p1-b" value="10" step="any"></div>
+          <div class="field"><label>Tolerancia (%)</label><input type="number" id="p1-tol" value="0.5" step="any"></div>
+          <div class="field"><label>Máx. iteraciones</label><input type="number" id="p1-max" value="50" step="1"></div>
+        </div>
+
+        <div class="row-actions">
+          <button class="btn btn-primary" onclick="runProblem('p1')">Calcular raíz</button>
+        </div>
+
+        <pre class="code-block" id="p1-code">function f(C) {
+  return 1 / (C - 8.5) - 0.35 * Math.log(C - 2);
+}
+
+function biseccion(f, a, b, tol, maxIter) {
+  let xrAnt = null;
+  for (let i = 1; i <= maxIter; i++) {
+    const xr = (a + b) / 2;
+    const fxr = f(xr);
+    const err = xrAnt === null ? null : Math.abs((xr - xrAnt) / xr) * 100;
+    // registrar fila: i, a, b, xr, fxr, err
+    if (fxr === 0 || (err !== null && err <= tol)) break;
+    if (f(a) * fxr < 0) b = xr; else a = xr;
+    xrAnt = xr;
+  }
+}</pre>
+
+        <div class="error-box" id="p1-error"></div>
+        <div id="p1-results"></div>
+      </div>
+    </section>
+
+    <!-- ==================== P2 · FALSA POSICIÓN ==================== -->
+    <section class="panel" id="p2">
+      <div class="card">
+        <div class="card-head">
+          <h2>Migración de un sistema a la nube</h2>
+          <span class="tag">Falsa Posición</span>
+        </div>
+        <p class="card-desc">Tiempo t (años) en que el costo acumulado on-premise se iguala al
+        costo acumulado en la nube.</p>
+        <div class="fx-box">f(t) = 45 + 12t − 20·e^(0.4t) = 0</div>
+
+        <div class="form-grid">
+          <div class="field"><label>a (inicial)</label><input type="number" id="p2-a" value="3" step="any"></div>
+          <div class="field"><label>b (inicial)</label><input type="number" id="p2-b" value="4" step="any"></div>
+          <div class="field"><label>Tolerancia (%)</label><input type="number" id="p2-tol" value="0.5" step="any"></div>
+          <div class="field"><label>Máx. iteraciones</label><input type="number" id="p2-max" value="50" step="1"></div>
+        </div>
+
+        <div class="row-actions">
+          <button class="btn btn-primary" onclick="runProblem('p2')">Calcular raíz</button>
+          <button class="btn-ghost" aria-controls="p2-code" aria-expanded="false" onclick="toggleCode('p2-code')">&lt;/&gt; Ver código fuente</button>
+        </div>
+
+        <pre class="code-block" id="p2-code">function f(t) {
+  return 45 + 12 * t - 20 * Math.exp(0.4 * t);
+}
+
+function falsaPosicion(f, a, b, tol, maxIter) {
+  let xrAnt = null;
+  for (let i = 1; i <= maxIter; i++) {
+    const fa = f(a), fb = f(b);
+    const xr = b - fb * (a - b) / (fa - fb);
+    const fxr = f(xr);
+    const err = xrAnt === null ? null : Math.abs((xr - xrAnt) / xr) * 100;
+    if (fxr === 0 || (err !== null && err <= tol)) break;
+    if (fa * fxr < 0) b = xr; else a = xr;
+    xrAnt = xr;
+  }
+}</pre>
+
+        <div class="error-box" id="p2-error"></div>
+        <div id="p2-results"></div>
+      </div>
+    </section>
+
+    <!-- ==================== P3 · PUNTO FIJO ==================== -->
+    <section class="panel" id="p3">
+      <div class="card">
+        <div class="card-head">
+          <h2>Temperatura de equilibrio en un centro de datos</h2>
+          <span class="tag">Punto Fijo</span>
+        </div>
+        <p class="card-desc">Un centro de datos debe mantener la temperatura de una sala de
+        servidores en equilibrio. Se resuelve directamente con la forma de iteración T = g(T).</p>
+        <div class="fx-box">g(T) = 18 + 8·e^(−0.15T)&nbsp;&nbsp;|&nbsp;&nbsp;T₀ = 20</div>
+
+        <div class="form-grid">
+          <div class="field"><label>T₀ (inicial)</label><input type="number" id="p3-x0" value="20" step="any"></div>
+          <div class="field"><label>Tolerancia (%)</label><input type="number" id="p3-tol" value="0.5" step="any"></div>
+          <div class="field"><label>Máx. iteraciones</label><input type="number" id="p3-max" value="50" step="1"></div>
+        </div>
+
+        <div class="row-actions">
+          <button class="btn btn-primary" onclick="runProblem('p3')">Calcular raíz</button>
+          <button class="btn-ghost" aria-controls="p3-code" aria-expanded="false" onclick="toggleCode('p3-code')">&lt;/&gt; Ver código fuente</button>
+        </div>
+
+        <pre class="code-block" id="p3-code">function g(T) {
+  return 18 + 8 * Math.exp(-0.15 * T);
+}
+
+function puntoFijo(g, f, x0, tol, maxIter) {
+  let xPrev = x0;
+  for (let i = 1; i <= maxIter; i++) {
+    const x = g(xPrev);
+    const err = i === 1 ? null : Math.abs((x - xPrev) / x) * 100;
+    if (err !== null && err <= tol) break;
+    xPrev = x;
+  }
+}</pre>
+
+        <div class="error-box" id="p3-error"></div>
+        <div id="p3-results"></div>
+      </div>
+    </section>
+
+    <!-- ==================== P4 · NEWTON-RAPHSON ==================== -->
+    <section class="panel" id="p4">
+      <div class="card">
+        <div class="card-head">
+          <h2>Tiempo de respuesta de un sistema</h2>
+          <span class="tag">Newton-Raphson</span>
+        </div>
+        <p class="card-desc">Raíz positiva del modelo cúbico de tiempo de respuesta de un
+        sistema (t en milisegundos), usando la derivada de f.</p>
+        <div class="fx-box">f(t) = t³ − 7t − 5 = 0&nbsp;&nbsp;|&nbsp;&nbsp;f′(t) = 3t² − 7</div>
+
+        <div class="form-grid">
+          <div class="field"><label>t₀ (inicial)</label><input type="number" id="p4-x0" value="2" step="any"></div>
+          <div class="field"><label>Tolerancia (%)</label><input type="number" id="p4-tol" value="0.5" step="any"></div>
+          <div class="field"><label>Máx. iteraciones</label><input type="number" id="p4-max" value="50" step="1"></div>
+        </div>
+
+        <div class="row-actions">
+          <button class="btn btn-primary" onclick="runProblem('p4')">Calcular raíz</button>
+          <button class="btn-ghost" aria-controls="p4-code" aria-expanded="false" onclick="toggleCode('p4-code')">&lt;/&gt; Ver código fuente</button>
+        </div>
+
+        <pre class="code-block" id="p4-code">function f(t)  { return t**3 - 7*t - 5; }
+function df(t) { return 3*t**2 - 7; }
+
+function newtonRaphson(f, df, x0, tol, maxIter) {
+  let xPrev = x0;
+  for (let i = 1; i <= maxIter; i++) {
+    const x = xPrev - f(xPrev) / df(xPrev);
+    const err = Math.abs((x - xPrev) / x) * 100;
+    if (err <= tol) break;
+    xPrev = x;
+  }
+}</pre>
+
+        <div class="error-box" id="p4-error"></div>
+        <div id="p4-results"></div>
+      </div>
+    </section>
+
+    <!-- ==================== P5 · SECANTE ==================== -->
+    <section class="panel" id="p5">
+      <div class="card">
+        <div class="card-head">
+          <h2>Punto de operación de un módulo de software</h2>
+          <span class="tag">Secante</span>
+        </div>
+        <p class="card-desc">Raíz obtenida sin derivar la función, usando dos aproximaciones
+        iniciales x₀ y x₁.</p>
+        <div class="fx-box">f(x) = e^(−x) − x² + 0.2 = 0</div>
+
+        <div class="form-grid">
+          <div class="field"><label>x₀ (inicial)</label><input type="number" id="p5-x0" value="0" step="any"></div>
+          <div class="field"><label>x₁ (inicial)</label><input type="number" id="p5-x1" value="1" step="any"></div>
+          <div class="field"><label>Tolerancia (%)</label><input type="number" id="p5-tol" value="0.5" step="any"></div>
+          <div class="field"><label>Máx. iteraciones</label><input type="number" id="p5-max" value="50" step="1"></div>
+        </div>
+
+        <div class="row-actions">
+          <button class="btn btn-primary" onclick="runProblem('p5')">Calcular raíz</button>
+          <button class="btn-ghost" aria-controls="p5-code" aria-expanded="false" onclick="toggleCode('p5-code')">&lt;/&gt; Ver código fuente</button>
+        </div>
+
+        <pre class="code-block" id="p5-code">function f(x) { return Math.exp(-x) - x**2 + 0.2; }
+
+function secante(f, x0, x1, tol, maxIter) {
+  let prev = x0, curr = x1;
+  for (let i = 1; i <= maxIter; i++) {
+    const fPrev = f(prev), fCurr = f(curr);
+    const x = curr - fCurr * (curr - prev) / (fCurr - fPrev);
+    const err = Math.abs((x - curr) / x) * 100;
+    if (err <= tol) break;
+    prev = curr; curr = x;
+  }
+}</pre>
+
+        <div class="error-box" id="p5-error"></div>
+        <div id="p5-results"></div>
+      </div>
+    </section>
+
+    <!-- ==================== P6 · PERSONALIZADO ==================== -->
+    <section class="panel" id="p6">
+      <div class="card">
+        <div class="card-head">
+          <h2>Resuelve tu propia función</h2>
+          <span class="tag">5 métodos</span>
+        </div>
+        <p class="card-desc">Escribe cualquier f(x) = 0 y elige el método. Acepta notación como
+        2x, x², √x, e^-x, ln(x), sin(x), π, y ecuaciones completas con signo "=".</p>
+
+        <div class="form-grid" style="grid-template-columns: 1fr 1fr;">
+          <div class="field">
+            <label id="p6-fx-label">f(x) =</label>
+            <input type="text" id="p6-fx" value="x^3 - 7x - 5" placeholder="ej. x^2 - 2x + 1">
+          </div>
+          <div class="field">
+            <label>Variable</label>
+            <input type="text" id="p6-var" value="x" placeholder="x, t, C...">
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="field">
+            <label>Método</label>
+            <select id="p6-method">
+              <option value="biseccion">Bisección</option>
+              <option value="falsaPosicion">Falsa Posición</option>
+              <option value="puntoFijo">Punto Fijo</option>
+              <option value="newton">Newton-Raphson</option>
+              <option value="secante">Secante</option>
+            </select>
+          </div>
+          <div class="field"><label id="p6-a-label">a (límite inf.)</label><input type="number" id="p6-a" value="2" step="any"></div>
+          <div class="field" id="p6-b-wrap"><label id="p6-b-label">b (límite sup.)</label><input type="number" id="p6-b" value="3" step="any"></div>
+          <div class="field"><label>Tolerancia (%)</label><input type="number" id="p6-tol" value="0.5" step="any"></div>
+        </div>
+
+        <div class="form-grid" style="grid-template-columns: 1fr 1fr 1fr;">
+          <div class="field" id="p6-g-wrap" style="display:none;">
+            <label id="p6-gx-label">g(x) =</label>
+            <input type="text" id="p6-gx" placeholder="ej. (2x+1)^(1/3)">
+          </div>
+          <div class="field" id="p6-df-wrap" style="display:none;">
+            <label id="p6-dfx-label">f'(x) =</label>
+            <input type="text" id="p6-dfx" placeholder="ej. 3x^2 - 7">
+          </div>
+          <div class="field"><label>Máx. iteraciones</label><input type="number" id="p6-max" value="50" step="1"></div>
+        </div>
+
+        <div class="row-actions">
+          <button class="btn btn-primary" onclick="runCustom()">Calcular raíz</button>
+        </div>
+
+        <div class="error-box" id="p6-error"></div>
+        <div id="p6-results"></div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
