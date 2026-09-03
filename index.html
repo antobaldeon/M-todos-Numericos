@@ -35,16 +35,14 @@
       <button class="nav-link" data-tab="p2" role="tab" aria-selected="false">
         <span class="nl-left"> Falsa Posición</span>
       </button>
-      <button class="nav-link hidden-temp" data-tab="p3" role="tab" aria-selected="false">
+      <button class="nav-link" data-tab="p3" role="tab" aria-selected="false">
   <span class="nl-left"> Punto Fijo</span>
 </button>
-<button class="nav-link hidden-temp" data-tab="p4" role="tab" aria-selected="false">
+<button class="nav-link" data-tab="p4" role="tab" aria-selected="false">
   <span class="nl-left"> Newton-Raphson</span>
-  <span class="badge">Latencia</span>
 </button>
-<button class="nav-link hidden-temp" data-tab="p5" role="tab" aria-selected="false">
+<button class="nav-link" data-tab="p5" role="tab" aria-selected="false">
   <span class="nl-left"> Secante</span>
-  <span class="badge">Software</span>
 </button>
       </button>
       <button class="nav-link" data-tab="p6" role="tab" aria-selected="false">
@@ -57,7 +55,7 @@
   <!-- ============ MAIN ============ -->
   <main class="main">
     <div class="page-head">
-      <div class="page-eyebrow">Sesión 2 · GAA</div>
+      <div class="page-eyebrow">Sesión 3 · GAA</div>
       <h1 class="page-title">Raíces de ecuaciones no lineales</h1>
       <p class="page-desc">Aplicación de métodos cuantitativos cerrados (como bisección y falsa posición) y abiertos (punto fijo, Newton-Raphson y secante) para resolver ecuaciones en ingeniería, incluyendo una herramienta configurable para el análisis de funciones arbitrarias.</p>
     </div>
@@ -170,7 +168,6 @@ function falsaPosicion(f, a, b, tol, maxIter) {
 
         <div class="row-actions">
           <button class="btn btn-primary" onclick="runProblem('p3')">Calcular raíz</button>
-          <button class="btn-ghost" aria-controls="p3-code" aria-expanded="false" onclick="toggleCode('p3-code')">&lt;/&gt; Ver código fuente</button>
         </div>
 
         <pre class="code-block" id="p3-code">function g(T) {
@@ -211,7 +208,6 @@ function puntoFijo(g, f, x0, tol, maxIter) {
 
         <div class="row-actions">
           <button class="btn btn-primary" onclick="runProblem('p4')">Calcular raíz</button>
-          <button class="btn-ghost" aria-controls="p4-code" aria-expanded="false" onclick="toggleCode('p4-code')">&lt;/&gt; Ver código fuente</button>
         </div>
 
         <pre class="code-block" id="p4-code">function f(t)  { return t**3 - 7*t - 5; }
